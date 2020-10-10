@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template Literals & Expressions</title>
+</head>
+<body>
+
+<script>
+    const name = 'Juan'
+    console.log(`My name is ${name}`)
+    console.log(`My age is ${28}`)
+    console.log(`This course is ${'Javascript para React'}`)
+    console.log(`My name is ${x = 'Juan'}`) // saved as window.x
+    console.log(`My name is ${function getName(){return 'Juan'}}`)
+    console.log(`My name is ${(function getName(){return 'Juan'})()}`)
+    console.log(`My name is ${(function (){return 'Juan'})()}`)
+    console.log(`My name is ${(() => {return 'Juan'})()}`)
+    console.log(`My name is ${true && 'Juan'}`)
+    console.log(`My name is ${false ? 'Juan' : 'Jesus'}`)
+    console.log(`My styles are ${['a','b'].map(char => `char = ${char}-styled`)}`)
+</script>
+</body>
+</html>
