@@ -9,6 +9,7 @@
 
 <main class="profile">
     <div class="wrapper">
+        <button id="update" class="button">How old is Juan?</button>
         <div class="profile-content" id="user"></div>
     </div>
 </main>
@@ -17,44 +18,79 @@
         name: 'Juan',
         lastName: 'Balceda',
         avatar: './images/profile.jpg',
-        bio: 'I\'m 28 years old, on my way to becoming a great software engineer.',
+        bio: 'I\'m _age_ years old, on my way to becoming a great software engineer.',
         city: 'Lima, Peru',
         social: [150, 160, 130, 255]
     }
 
-    function User({name, lastName, avatar, city, bio, social}) {
+    function useState(initialState) {
+        let value = initialState
+
+        function state() {
+            return value
+        }
+
+        function setState(newValue) {
+            value = newValue
+        }
+
+        return [
+            state,
+            setState
+        ]
+    }
+
+    function User({name, lastName, avatar, city, bio: _bio, social}) {
 
         const [twitter, facebook, instagram, tiktok] = social
 
-        return `
-        <div class="user">
-          <img src="${avatar}" alt="${name}" width="140" height="140">
-          <div class="details">
-            <p>${name} ${lastName}</p>
-          </div>
-          <p class="city"><em>${city}</em></p>
-          <div class="social">
-            <p>
-              ${twitter}
-            </p>
-            <p>
-              ${facebook}
-            </p>
-            <p>
-              ${instagram}
-            </p>
-            <p>
-              ${tiktok}
-            </p>
-          </div>
-          <div class="bio">
-            <p>${bio}</p>
-          </div>
-        </div>
-      `
+        const [age, setAge] = useState(28);
+
+        function render() {
+            const bio = _bio.replace('_age_', age)
+            return `
+                <div class="user">
+                  <img src="${avatar}" alt="${name}" width="140" height="140">
+                  <div class="details">
+                    <p>${name} ${lastName}</p>
+                  </div>
+                  <p class="city"><em>${city}</em></p>
+                  <div class="social">
+                    <p>
+                      ${twitter}
+                    </p>
+                    <p>
+                      ${facebook}
+                    </p>
+                    <p>
+                      ${instagram}
+                    </p>
+                    <p>
+                      ${tiktok}
+                    </p>
+                  </div>
+                  <div class="bio">
+                    <p>${bio}</p>
+                  </div>
+                </div>
+              `
+        }
+
+        return {
+            render,
+            setAge
+        }
     }
 
-    window.user.innerHTML = User(user)
+    const juan = User(user);
+
+    window.update.addEventListener('click', () => {
+        const newAge = window.prompt('How old is Juan?', 28)
+        juan.setAge(newAge)
+        window.user.innerHTML = juan.render()
+    })
+
+    window.user.innerHTML = juan.render()
 </script>
 </body>
 </html>
