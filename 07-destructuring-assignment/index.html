@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Destructuring Assignment</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<main class="profile">
+    <div class="wrapper">
+        <div class="profile-content" id="user"></div>
+    </div>
+</main>
+<script>
+    const user = {
+        name: 'Juan',
+        lastName: 'Balceda',
+        avatar: './images/profile.jpg',
+        bio: 'I\'m 28 years old, on my way to becoming a great software engineer.',
+        city: 'Lima, Peru',
+        social: [150, 160, 130, 255]
+    }
+
+    function User({name, lastName, avatar, city, bio, social}) {
+
+        const [twitter, facebook, instagram, tiktok] = social
+
+        return `
+        <div class="user">
+          <img src="${avatar}" alt="${name}" width="140" height="140">
+          <div class="details">
+            <p>${name} ${lastName}</p>
+          </div>
+          <p class="city"><em>${city}</em></p>
+          <div class="social">
+            <p>
+              ${twitter}
+            </p>
+            <p>
+              ${facebook}
+            </p>
+            <p>
+              ${instagram}
+            </p>
+            <p>
+              ${tiktok}
+            </p>
+          </div>
+          <div class="bio">
+            <p>${bio}</p>
+          </div>
+        </div>
+      `
+    }
+
+    window.user.innerHTML = User(user)
+</script>
+</body>
+</html>
