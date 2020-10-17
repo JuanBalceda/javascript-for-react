@@ -31,6 +31,7 @@
         </details>
         <h1>Calories Burner</h1>
         <p class="result" id="result"></p>
+        <p class="result" id="pizza"></p>
         <button id="burn" class="burn">🔥</button>
     </div>
 </main>
@@ -63,16 +64,28 @@
     const reducer = (state, action) => {
         switch (action.type) {
             case 'burn':
-                return state + action.payload
+                state.burnedCalories += action.payload
+                if (state.pizzaCalories - action.payload > 0) {
+                    state.pizzaCalories -= action.payload
+                } else {
+                    state.pizzaCalories = 0
+                }
+                return state
             default:
                 return state
         }
     }
 
-    const store = createStore(reducer, 0)
+    const initialState = {
+        burnedCalories: 0,
+        pizzaCalories: 1835000.00
+    }
+
+    const store = createStore(reducer, initialState)
 
     store.subscribe(() => {
-        window.result.textContent = `You've burned ${store.getState().toFixed(2)} calories`
+        window.result.textContent = `You've burned ${store.getState().burnedCalories.toFixed(2)} calories`
+        window.pizza.textContent = `${store.getState().pizzaCalories.toFixed(2)} calories left to burn a 🍕`
     })
 
     const burnCalories = () => {
