@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redux</title>
+</head>
+<body>
+
+<script>
+    const createStore = (reducer, initialState) => {
+
+        let state = initialState;
+
+        let updater = () => {
+        }
+
+        const getState = () => state
+
+        const dispatch = (action) => {
+            state = reducer(state, action)
+            updater()
+        }
+
+        const subscribe = (listener) => {
+            updater = listener
+        }
+
+        return {
+            getState,
+            dispatch,
+            subscribe
+        }
+    }
+
+    const reducer = (state, action) => {
+        return action
+    }
+
+    const store = createStore(reducer, 'Application initial state')
+
+    store.subscribe(() => {
+        console.log('Something on store changed', store.getState())
+    })
+
+    store.dispatch('**new vale**')
+
+</script>
+</body>
+</html>
