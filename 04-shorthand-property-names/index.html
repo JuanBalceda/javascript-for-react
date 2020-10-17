@@ -11,8 +11,8 @@
 <body>
   <main>
     <h1>
-      La mejor. <br>
-      Para los mejores
+      The best. <br>
+      For the best
     </h1>
     <div class="hero">
       <div class="wrapper">
@@ -21,23 +21,23 @@
           <div class="app">
             <p>
               <strong>
-                Precio:
+                Price:
               </strong>
               <span id="price">-</span>
             </p>
             <p>
               <strong>
-                Precio oferta:
+                Offer price:
               </strong>
               <span id="offer">-</span>
             </p>
             <p>
               <strong>
-                Precio Final:
+                Final price:
               </strong>
               <span id="final-price">-</span>
             </p>
-            <button class="button" id="make-offer">Regatear</button>
+            <button class="button" id="make-offer">Bargain</button>
           </div>
         </div>
       </div>
@@ -47,22 +47,23 @@
   <script>
     const price = 2700
     const macbook = {
-      price,
-      // getPrice: function() {
-
-      // },
+      price, // Short hand property name
+      //getPrice: function() {
+      //},
+      getPrice() {
+        console.log(this.price)
+      },
       get finalPrice() {
-        return this.price * 1.16
+        return this.price * 1.16 // Add IVA
       },
       set offer(offer) {
         this.price -= offer
       },
-      getPrice() {
-        console.log(this.price)
-      },
-      *discount(offer) {
+      // discount: function* () {
+      // },
+      * discount(offer) { // Generator Function
         let price = this.finalPrice
-        while (true) {
+        while (price - offer > 0) {
           yield price -= offer
         }
       }
@@ -71,12 +72,17 @@
     window.price.textContent = macbook.price
     macbook.offer = 500
     window.offer.textContent = macbook.price
+
     window['final-price'].textContent = macbook.finalPrice
 
-    const makeAnOffer = macbook.discount(15)
+    const makeAnOffer = macbook.discount(20)
+
     window['make-offer'].addEventListener('click', () => {
-      window['final-price'].textContent = makeAnOffer.next().value
-    })
+      const generatedValue = makeAnOffer.next()
+      if (!generatedValue.done) {
+        window['final-price'].textContent = generatedValue.value
+      }
+    });
   </script>
 </body>
 
