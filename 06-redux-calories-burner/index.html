@@ -3,37 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title>Redux Calories Burner</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <main>
     <div class="wrapper">
         <details>
             <summary>
-                ⭐️ explicación
+                ⭐️ Explanation
             </summary>
             <p>
-                El libro, Convert Anything to Calories, llegó a la conclusión de que, en promedio, una persona con un
-                dedo indice de 10.8 cm^3 y de 11.7 gramos necesitará muuuchos clicks para conservar la línea. Se
-                requieren 16.7 micromoles de adenosín trifosfato (la molécula que transporta energía entre las células)
-                para mover un gramo del cuerpo por un segundo, y como hay 7.3 calorías en un mol (la medida de cantidad
-                de una sustancia) de adenosín trifosfato, en teoría, cada click del mouse debería quemar 1.42 calorías.
-                Aunque el cálculo asume el movimiento de todo el músculo, por lo que la cantidad real puede variar un
-                poco.
+                The book, Convert Anything to Calories, concluded that, on average, a person with an index finger
+                measuring 10.8 cm ^ 3 and 11.7 grams will need a lot of clicks to keep the line. It takes 16.7
+                micromoles of adenosine triphosphate (the molecule that transports energy between cells) to move one
+                gram of the body for one second, and since there are 7.3 calories in one mole (the measure of quantity
+                of a substance) of adenosine triphosphate, in theory , each mouse click should burn 1.42 calories.
+                Although the calculation assumes the movement of the entire muscle, so the actual amount may vary
+                slightly.
             </p>
-            <p>Pero resulta que es sábado y tienes hambre. treinta minutos después te llega una pizza (1,835kCal) con
-                una coca (97kCal), tendrías que hacer 1,360,563 clicks para quemar la cena. Y cómo es sábado seguramente
-                involucrará unas cuantas bebidas alcohólicas: en un Gin & Tonic (120kCal) hay 84,507 clicks, y
-                131,690.14 por cada cerveza que consumas. En otras palabras, con 427 clicks en promedio por día, la
-                computadora no es un buen ejercicio.
+            <p>
+                But it turns out it's Saturday and you're hungry. thirty minutes later you get a pizza (1,835kCal) with
+                a coke (97kCal), you would have to make 1,360,563 clicks to burn dinner. And since it is Saturday it
+                will surely involve a few alcoholic drinks: in a Gin & Tonic (120kCal) there are 84,507 clicks, and
+                131,690.14 for each beer you consume. In other words, with an average of 427 clicks per day, the
+                computer is not a good exercise.
             </p>
         </details>
-        <h1>Quemador de calorías</h1>
+        <h1>Calories Burner</h1>
         <p class="result" id="result"></p>
         <button id="burn" class="burn">🔥</button>
     </div>
 </main>
 <script>
+    const createStore = (reducer, initialState) => {
 
+        let state = initialState;
+
+        let updater = () => {
+        }
+
+        const getState = () => state
+
+        const dispatch = (action) => {
+            state = reducer(state, action)
+            updater()
+        }
+
+        const subscribe = (listener) => {
+            updater = listener
+        }
+
+        return {
+            getState,
+            dispatch,
+            subscribe
+        }
+    }
+
+    const reducer = (state, action) => {
+        switch (action.type) {
+            case 'burn':
+                return state + action.payload
+            default:
+                return state
+        }
+    }
+
+    const store = createStore(reducer, 0)
+
+    store.subscribe(() => {
+        window.result.textContent = `You've burned ${store.getState().toFixed(2)} calories`
+    })
+
+    const burnCalories = () => {
+        store.dispatch({
+            type: 'burn',
+            payload: 1.24
+        })
+    }
+
+    window.burn.addEventListener('click', burnCalories)
 </script>
 </body>
 </html>
