@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spread/Rest Operator</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+<main class="wrapper">
+    <h1>Ice Cream Machine</h1>
+    <p>Pick 2 flavors and place an order</p>
+    <div class="icrecream-grid">
+        <div class="flavor" data-flavor="strawberry"></div>
+        <div class="flavor" data-flavor="chocolate"></div>
+        <div class="flavor" data-flavor="orange"></div>
+        <div class="flavor" data-flavor="vanilla"></div>
+        <div class="flavor" data-flavor="lemon"></div>
+    </div>
+    <button id="btn" class="button">Make Ice Cream</button>
+</main>
+
+
+<script>
+    const $flavors = document.querySelectorAll('.flavor')
+    $flavors.forEach($el => $el.addEventListener('click', function () {
+        this.classList.toggle('is-active')
+    }))
+
+    const isRequired = (param) => {
+        throw new Error(`${param} is required`)
+    }
+
+    function makeIceCream([flavor1 = isRequired('flavor1'), flavor2 = isRequired('flavor2'), ...otherFlavors]) {
+
+        const toppings = otherFlavors.map((f) => f.dataset.flavor)
+        const toppingsMessage =(toppings?.length > 1) ? `Toppings: ${toppings}` : ''
+
+        alert(`Your ${flavor1.dataset.flavor} and ${flavor2.dataset.flavor} ice cream is ready! ${toppingsMessage}`)
+    }
+
+    window.btn.addEventListener('click', () => {
+        const $flavors = document.querySelectorAll('.flavor.is-active')
+        try {
+            makeIceCream([...$flavors])
+        } catch (error) {
+            alert('Please, select two flavors')
+        }
+    })
+</script>
+</body>
+</html>
