@@ -1,0 +1,1 @@
+import './ice-cream/index.js' // Execute all code
