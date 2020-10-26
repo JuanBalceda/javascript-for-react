@@ -29,3 +29,8 @@ export default function renderMovies(list) {
   cleanMovies()
   list.forEach(renderElement)
 }
+
+export function renderMoviesFromMap(list, map) {
+  cleanMovies()
+  list.forEach(idMovie => renderElement(map.get(idMovie)))
+}
